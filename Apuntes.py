@@ -1,0 +1,75 @@
+# Type hints
+
+Python los utiliza para saber que tipo de dato es una variable. Aunque no lo convierte en fuertemente tipado, es muy recomendable
+utilizarlo en FastAPI ya que esto hace que el editor de código nos de recomendaciones y en la documentación aparezca que es cada cosa.
+
+# Comandos
+
+pip install fastapi[all] - instalar todas las dependencias que se podrían a llegar a utilizar en FastAPI, incluye uvicorn (es el servidor en el que funcionará el Backend)
+uvicorn main:app --reload - es el comando que utilizamos para arrancar el servidor
+ctrl + c - apagar el servidor
+
+# Métodos HTTP
+
+POST: crear datos
+GET: leer datos
+PUT: actualizar datos
+DELETE: eliminar datos
+
+# Path y Query
+El path lo utilizamos cuando se va a pedir un parámetro fijo. Ejemplo: user/{id} - user/1
+
+El query lo utilizamos cuando hay varios parámetros y algunos pueden ser no fijos. Ejemplo: user/?id=10&name=Pepito
+
+# HTTP Status code
+
+100+ -> Respuesta informativa
+200+ -> Respuesta exitosa
+300+ -> Mensaje de redirección
+400+ -> Respuesta de error de parte del cliente
+500+ -> Respuesta de error de parte del servidor
+
+# Status code en la respuesta de FastAPI
+Podemos utilizar status_code= en el decorador para determinar que tipo de respuesta va mostrar la operación en caso de que no haya errores
+También podemos utilizar el módulo HTTPException de FastAPI para nosotros mismos crear el tipo de respuesta a mostrar en caso de errores, creando
+una instancia de HTTPException y mandándola por raise.
+
+# Entidades
+Las utilizamos para que FastAPI automatice el proceso de pedir datos, devolver datos, mostrar documentación
+Utilizamos el módulo BaseModel de pydantic y podemos crear una entidad de lo que modelemos en la API (usuarios, productos, etc.)
+
+
+# Routers
+Los utilizamos para unir todos los archivos que hay en nuestra API.
+En el archivo principal creamos una instancia de FastAPI, en los otros creamos una instancia de APIRouter
+En el archivo principal utilizamos app.include_router(user.router)
+
+# Routers config
+Al momento de crear la instancia del Router, podemos mandar por parámetro
+prefix: Determinar que todas las operaciones del archivo van a empezar con una ruta en concreto
+tags: Esto es para que en la documentación podamos diferenciar de que archivo es cada operación de la API
+responses
+responses: En caso de haber un error, mostrar un status code en específico (no estoy seguro)
+
+# Recursos estáticos
+Lo utilizamos para que nuestro Backend pueda presentar recursos estáticos como imágenes.
+Utilizamos el método mount, luego como parámetros ponemos
+Un string que es la ruta a donde el usuario va a poder acceder para ver el recurso.
+Un objeto de tipo StaticFiles, en donde lo instanciamos y como parámetro ponemos la ubicación de la carpeta con los recursos
+Un name (no sé cuál es la utilidad)
+
+
+# Auth
+
+Utilizamos OAuth2 para la autenticación.
+Básicamente el proceso es, tenemos un login, donde se valida el usuario y la contraseña, en caso de que esté bien,
+se retorna el access token y el tipo de token. Inicialmente el access token es sólo el nombre de usuario
+Luego, lo que se hace es que al momento de que el usuario intente hacer una operación de la cuál se necesite estar autenticado,
+se pide el token y FastAPI revisa automáticamente si es válido. Acá entra el concepto Depends, que lo que hace es
+ligar la respuesta de cualquier función dependiendo lo que pongamos en el Depends.
+Por ejemplo, en el código, la función 'me' depende de la respuesta de current_user y current_user depende de la validación
+que hace la instancia de OAuth2 del token.
+En caso de que alguna parte del proceso no salga bien, automáticamente FastAPI devuelve una respuesta de que no está autenticado.
+Y también, nosotros podemos hacer nuestras validaciones y en caso de error, se tira una excepción.
+
+
