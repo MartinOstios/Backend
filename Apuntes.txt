@@ -73,3 +73,12 @@ En caso de que alguna parte del proceso no salga bien, automáticamente FastAPI 
 Y también, nosotros podemos hacer nuestras validaciones y en caso de error, se tira una excepción.
 
 
+# JWT
+
+JSON Web Token es una forma más segura de autenticarnos, el cuál utiliza un algoritmo de encriptación,
+usualmente HS256, también un seed, que son carácteres al azar, este seed lo que hace es que 
+la encriptación de la información sea única y sólo la sepa el backend, o sea, para desencriptar, es necesario
+utilizar la seed, que es como una clave. Por último, el token también tiene una fecha de expiración,
+que va a ser cuando el token deje de funcionar y el usuario pierda su autenticación.
+
+
