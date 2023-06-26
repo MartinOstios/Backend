@@ -81,4 +81,12 @@ la encriptación de la información sea única y sólo la sepa el backend, o sea
 utilizar la seed, que es como una clave. Por último, el token también tiene una fecha de expiración,
 que va a ser cuando el token deje de funcionar y el usuario pierda su autenticación.
 
+# MongoDB
+Es una base de datos no relacional, o sea que es más sencillo y rápido. En este caso lo que tenemos son
+documentos, sobre los cuales podemos hacer operaciones.
+La conexión a la base de datos está dada en el archivo client. En este caso se instancia el objeto string parámetros
+porque utilizamos el localhost
+
+
+
 
